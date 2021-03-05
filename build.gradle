@@ -1,0 +1,41 @@
+buildscript {
+	ext {
+		// 현 전산 springboot와 같은 버전을 맞춤
+     	springBootVersion = "2.2.1.RELEASE"
+    }
+    
+    repositories {
+		mavenCentral()
+	}
+    
+    // gradle의 스크립트에서 바로 외부 라이브러리를 참조해야 할 경우에 사용하는 방법
+    dependencies {
+    	// dependency(의존성)관리와 애플리케이션 패키징을 도와주는 도구 ( jar, war 패키징 )
+    	classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    	// https://mvnrepository.com/artifact/io.spring.gradle/dependency-management-plugin
+		classpath group: 'io.spring.gradle', name: 'dependency-management-plugin', version: '1.0.10.RELEASE'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'war'
+apply plugin: 'io.spring.dependency-management'
+
+sourceCompatibility = 1.8
+
+bootWar {
+	mainClassName = 'com.orange.excelDownload.endpoint.Application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	// tomcat연동
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	
+	// springboot (dependency-management-plugin이 의존성 관리)
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+}
